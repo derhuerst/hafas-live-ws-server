@@ -18,8 +18,31 @@ npm install hafas-live-ws-server
 
 ## Usage
 
+Server:
+
 ```js
-todo
+const createHafas = require('bvg-hafas')
+const {createServer: createHttpServer} = require('http')
+const createWebSocketServer = require('hafas-live-ws-server')
+
+const hafas = createHafas('hafas-live-ws-server example')
+const httpServer = createHttpServer()
+const wsServer = createWebSocketServer(httpServer, hafas)
+httpServer.listen(3000)
+```
+
+Client:
+
+```js
+const querystring = require('querystring')
+const WebSocket = require('ws')
+
+const bbox = querystring.stringify({
+	north: 52.51, south: 52.4, west: 13.35, east: 13.38
+})
+const ws = new WebSocket('http://localhost:3000/stopovers?' + query)
+ws.on('error', console.error)
+ws.on('message', msg => console.log(JSON.parse(msg)))
 ```
 
 
